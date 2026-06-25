@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const fragments = [
   {
@@ -26,8 +27,10 @@ const fragments = [
 ];
 
 export default function MemoryField() {
+  const [activeFragment, setActiveFragment] = useState(fragments[0]);
+
   return (
-    <section className="border-b border-[#c4c7c7] px-5 py-24 md:px-12 md:py-32">
+    <section className="border-b border-[#c4c7c7] px-5 py-10 md:px-12 md:py-32">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 max-w-3xl">
           <p className="mb-5 font-mono text-xs font-medium uppercase tracking-[0.2em] text-[#747878]">
@@ -51,7 +54,10 @@ export default function MemoryField() {
             <motion.article
               drag
               dragConstraints={{ left: -80, right: 80, top: -80, bottom: 80 }}
-              whileHover={{ scale: 1.04 }}
+              onFocus={() => setActiveFragment(fragment)}
+              onHoverStart={() => setActiveFragment(fragment)}
+              tabIndex={0}
+              whileHover={{ scale: 1.04, borderColor: "#1b1c1c" }}
               whileTap={{ scale: 0.98 }}
               className={`group absolute w-[230px] cursor-grab border border-[#c4c7c7] bg-[#fbf9f9] p-4 active:cursor-grabbing ${fragment.className}`}
               key={fragment.label}
@@ -64,6 +70,23 @@ export default function MemoryField() {
               </p>
             </motion.article>
           ))}
+          <motion.aside
+            className="absolute bottom-6 left-1/2 w-[min(86%,420px)] -translate-x-1/2 border border-black bg-white p-5"
+            key={activeFragment.label}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#747878]">
+              selected fragment
+            </p>
+            <p className="font-serif text-2xl font-medium leading-tight">
+              {activeFragment.label}
+            </p>
+            <p className="mt-3 font-sans text-sm leading-6 text-[#444748]">
+              {activeFragment.detail}
+            </p>
+          </motion.aside>
         </div>
       </div>
     </section>

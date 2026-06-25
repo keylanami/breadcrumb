@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Magnetic from "@/components/landing/Magnetic";
 
 export default function FinalCTA() {
   return (
@@ -28,12 +29,24 @@ export default function FinalCTA() {
           <p className="max-w-md font-sans text-base leading-7 text-[#444748]">
             Continue into the private archive. Google sign-in is the only key.
           </p>
-          <Link
-            className="inline-flex w-full items-center justify-center border border-black bg-black px-8 py-4 font-mono text-xs font-medium uppercase tracking-[0.16em] text-white transition-opacity hover:opacity-90 md:w-auto"
-            href="/login"
-          >
-            Continue with Google
-          </Link>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Magnetic as="div" strength={0.12}>
+              <Link
+                className="inline-flex w-full items-center justify-center border border-black bg-black px-8 py-4 font-mono text-xs font-medium uppercase tracking-[0.16em] text-white transition-opacity hover:opacity-90 md:w-auto"
+                href="/login"
+              >
+                Get Started
+              </Link>
+            </Magnetic>
+            <Magnetic as="div" strength={0.12}>
+              <Link
+                className="inline-flex w-full items-center justify-center border border-black bg-transparent px-8 py-4 font-mono text-xs font-medium uppercase tracking-[0.16em] text-black transition-colors hover:bg-white md:w-auto"
+                href="/login"
+              >
+                Continue with Google
+              </Link>
+            </Magnetic>
+          </div>
         </div>
       </div>
     </section>

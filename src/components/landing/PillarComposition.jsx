@@ -19,7 +19,7 @@ export default function PillarComposition() {
 
   return (
     <section ref={sectionRef} className="relative min-h-[190vh] border-b border-[#c4c7c7]">
-      <div className="sticky top-0 flex min-h-screen items-center px-5 py-24 md:px-12">
+      <div className="sticky top-0 flex min-h-screen items-center px-5 py-14 md:px-12">
         <div className="mx-auto w-full max-w-6xl">
           <p className="mb-5 font-mono text-xs font-medium uppercase tracking-[0.2em] text-[#747878]">
             05 {"//"} what it becomes
