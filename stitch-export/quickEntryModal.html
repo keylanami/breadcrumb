@@ -1,0 +1,191 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Breadcrumb - Quick Capture</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;700&amp;family=Inter:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-dim": "#dbdad9", "secondary-container": "#e2e3e1", "inverse-surface": "#303031", "primary-container": "#1c1b1b", "tertiary-fixed": "#e2e2e0", "surface-container": "#efeded", "tertiary-fixed-dim": "#c6c7c5", "surface-container-low": "#f5f3f3", error: "#ba1a1a", "secondary-fixed": "#e2e3e1", tertiary: "#000000", "surface-bright": "#fbf9f9", "surface-variant": "#e4e2e2", secondary: "#5d5f5d", "surface-tint": "#5f5e5e", "on-primary-container": "#858383", "on-primary-fixed-variant": "#474646", "primary-fixed-dim": "#c8c6c5", "on-tertiary-fixed": "#1a1c1b", surface: "#fbf9f9", "on-surface": "#1b1c1c", "on-secondary-fixed": "#1a1c1b", "on-error-container": "#93000a", "secondary-fixed-dim": "#c6c7c5", "on-secondary-container": "#636563", "error-container": "#ffdad6", "on-primary-fixed": "#1c1b1b", "surface-container-lowest": "#ffffff", "primary-fixed": "#e5e2e1", primary: "#000000", "on-primary": "#ffffff", "surface-container-high": "#e9e8e7", "on-tertiary": "#ffffff", outline: "#747878", "on-tertiary-container": "#838482", "on-secondary-fixed-variant": "#454746", "tertiary-container": "#1a1c1b", "surface-container-highest": "#e4e2e2", "on-error": "#ffffff", "outline-variant": "#c4c7c7", "on-surface-variant": "#444748", "on-secondary": "#ffffff", "inverse-on-surface": "#f2f0f0", background: "#fbf9f9", "on-tertiary-fixed-variant": "#454746", "on-background": "#1b1c1c", "inverse-primary": "#c8c6c5"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "20px", gutter: "24px", "max-width-content": "720px", unit: "4px", "margin-page": "48px"}, fontFamily: {"body-md": ["Inter"], "label-mono": ["JetBrains Mono"], "body-lg": ["Inter"], "display-lg": ["\"Source Serif 4\""], "headline-md": ["\"Source Serif 4\""], "display-lg-mobile": ["\"Source Serif 4\""], headline: ["\"Source Serif 4\""], display: ["\"Source Serif 4\""], body: ["Inter"], label: ["Jetbrains Mono"]}, fontSize: {"body-md": ["16px", {lineHeight: "1.5", fontWeight: "400"}], "label-mono": ["12px", {lineHeight: "1", letterSpacing: "0.05em", fontWeight: "500"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "display-lg": ["48px", {lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "600"}], "headline-md": ["24px", {lineHeight: "1.3", fontWeight: "500"}], "display-lg-mobile": ["32px", {lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600"}]}}}};</script>
+<style>
+        /* Custom styles to enforce notebook aesthetic */
+        .input-minimal {
+            @apply border-0 border-b border-outline-variant bg-transparent px-0 py-2 w-full focus:ring-0 focus:border-primary focus:border-b-2 transition-all duration-200 outline-none;
+        }
+        .form-section {
+            @apply absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out;
+        }
+        .form-section.active {
+            @apply opacity-100 pointer-events-auto relative;
+        }
+    </style>
+</head>
+<body class="bg-surface-container font-body-md text-on-surface min-h-screen flex items-center justify-center p-margin-mobile md:p-margin-page">
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 bg-surface-dim/80 backdrop-blur-sm z-40"></div>
+<!-- Quick Capture Modal Canvas -->
+<main class="relative z-50 w-full max-w-[480px] bg-surface-container-lowest border border-outline-variant p-8 flex flex-col gap-8">
+<!-- Header -->
+<header class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<h1 class="font-headline-md text-headline-md text-primary">Create Entry</h1>
+<button aria-label="Close" class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</div>
+<!-- ASCII Divider -->
+<div class="font-label-mono text-label-mono text-outline-variant select-none tracking-[0.2em] overflow-hidden whitespace-nowrap opacity-50">
+                +--------------------------------------------------+
+            </div>
+</header>
+<!-- Type Selector -->
+<nav aria-label="Capture Type">
+<ul class="flex flex-wrap gap-2" id="type-selector">
+<li class="">
+<button class="type-btn px-4 py-2 border border-primary bg-primary text-on-primary font-label-mono text-label-mono transition-colors" data-target="form-activity">
+                        Activity
+                    </button>
+</li>
+<li class="">
+<button class="type-btn px-4 py-2 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary font-label-mono text-label-mono transition-colors bg-transparent" data-target="form-decision">
+                        Decision
+                    </button>
+</li>
+<li class="">
+<button class="type-btn px-4 py-2 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary font-label-mono text-label-mono transition-colors bg-transparent" data-target="form-memory">
+                        Memory
+                    </button>
+</li>
+<li class="">
+<button class="type-btn px-4 py-2 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary font-label-mono text-label-mono transition-colors bg-transparent" data-target="form-routine">
+                        Routine
+                    </button>
+</li>
+</ul>
+</nav>
+<!-- Dynamic Form Container -->
+<div class="relative min-h-[220px]" id="form-container">
+<!-- Activity Form -->
+<form class="form-section active flex flex-col gap-6" id="form-activity">
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="activity-desc">What did you do?</label>
+<input autofocus="" class="input-minimal font-body-md text-body-md text-primary" id="activity-desc" placeholder="Brief description..." type="text">
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="activity-cat">Category</label>
+<div class="relative">
+<select class="input-minimal font-body-md text-body-md text-primary appearance-none pr-8 bg-transparent" id="activity-cat">
+<option disabled="" selected="" value="">Select category</option>
+<option value="work">Work</option>
+<option value="health">Health</option>
+<option value="social">Social</option>
+<option value="learning">Learning</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+</form>
+<!-- Decision Form -->
+<form class="form-section flex flex-col gap-6" id="form-decision">
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="decision-name">Decision</label>
+<input class="input-minimal font-body-md text-body-md text-primary" id="decision-name" placeholder="e.g., Invest in new tool" type="text">
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="decision-conf">Confidence</label>
+<span class="font-label-mono text-label-mono text-primary" id="conf-val">50%</span>
+</div>
+<input class="w-full accent-primary h-[1px] bg-outline-variant appearance-none my-2 cursor-pointer" id="decision-conf" max="100" min="0" oninput="document.getElementById('conf-val').innerText = this.value + '%'" step="10" type="range">
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="decision-out">Expected Outcome</label>
+<input class="input-minimal font-body-md text-body-md text-primary" id="decision-out" placeholder="In 3 months..." type="text">
+</div>
+</form>
+<!-- Memory Form -->
+<form class="form-section flex flex-col gap-6" id="form-memory">
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="memory-title">Title</label>
+<input class="input-minimal font-body-md text-body-md text-primary" id="memory-title" placeholder="A vivid detail..." type="text">
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="memory-notes">Notes</label>
+<textarea class="input-minimal font-body-md text-body-md text-primary resize-none" id="memory-notes" placeholder="Elaborate briefly..." rows="2"></textarea>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="memory-tags">Tags</label>
+<input class="input-minimal font-label-mono text-label-mono text-primary" id="memory-tags" placeholder="e.g., #milestone, #insight" type="text">
+</div>
+</form>
+<!-- Routine Form -->
+<form class="form-section flex flex-col gap-6" id="form-routine">
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="routine-name">Routine Name</label>
+<input class="input-minimal font-body-md text-body-md text-primary" id="routine-name" placeholder="e.g., Morning Review" type="text">
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase" for="routine-interval">Repeat Interval</label>
+<div class="relative">
+<select class="input-minimal font-body-md text-body-md text-primary appearance-none pr-8 bg-transparent" id="routine-interval">
+<option value="daily">Daily</option>
+<option value="weekly">Weekly</option>
+<option value="monthly">Monthly</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+</form>
+</div>
+<!-- Footer Actions -->
+<footer class="pt-4 border-t border-outline-variant flex justify-end">
+<button class="bg-primary text-on-primary font-label-mono text-label-mono px-6 py-3 uppercase tracking-wider hover:opacity-90 transition-opacity">
+                Save
+            </button>
+</footer>
+</main>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.type-btn');
+            const forms = document.querySelectorAll('.form-section');
+
+            // Style definitions for active/inactive buttons
+            const activeClasses = ['bg-primary', 'text-on-primary', 'border-primary'];
+            const inactiveClasses = ['bg-transparent', 'text-on-surface-variant', 'border-outline-variant', 'hover:border-primary', 'hover:text-primary'];
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Reset all buttons
+                    buttons.forEach(b => {
+                        b.classList.remove(...activeClasses);
+                        b.classList.add(...inactiveClasses);
+                    });
+
+                    // Set clicked button to active
+                    const clickedBtn = e.currentTarget;
+                    clickedBtn.classList.remove(...inactiveClasses);
+                    clickedBtn.classList.add(...activeClasses);
+
+                    // Switch forms
+                    const targetId = clickedBtn.getAttribute('data-target');
+                    forms.forEach(form => {
+                        if (form.id === targetId) {
+                            form.classList.add('active');
+                            // Optional: focus first input of active form for speed
+                            setTimeout(() => {
+                                const firstInput = form.querySelector('input, select, textarea');
+                                if (firstInput) firstInput.focus();
+                            }, 50);
+                        } else {
+                            form.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+
+</body></html>

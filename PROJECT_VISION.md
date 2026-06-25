@@ -209,15 +209,17 @@ Collection:
 
 users/{userId}
 
-Document:
+User document:
 
 {
-uid,
-displayName,
-email,
-photoURL,
-createdAt
+  uid,
+  displayName,
+  email,
+  photoURL,
+  createdAt
 }
+
+Dashboard greeting should use the first word of displayName.
 
 ---
 

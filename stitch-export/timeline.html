@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Timeline - Notebook</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;700&amp;family=Inter:wght@400;500;700&amp;family=Jetbrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Source+Serif+4:opsz,wght@8..60,400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-error": "#ffffff", "surface-container-high": "#e9e8e7", "secondary-fixed-dim": "#c6c7c5", "surface-container-highest": "#e4e2e2", "surface-tint": "#5f5e5e", "secondary-fixed": "#e2e3e1", "primary-fixed-dim": "#c8c6c5", "on-secondary": "#ffffff", "on-primary-container": "#858383", "on-tertiary-fixed-variant": "#454746", secondary: "#5d5f5d", "on-error-container": "#93000a", "inverse-on-surface": "#f2f0f0", "surface-container": "#efeded", "surface-variant": "#e4e2e2", "secondary-container": "#e2e3e1", background: "#fbf9f9", primary: "#000000", "surface-container-low": "#f5f3f3", "surface-dim": "#dbdad9", "on-tertiary-container": "#838482", "inverse-primary": "#c8c6c5", "inverse-surface": "#303031", "tertiary-container": "#1a1c1b", "on-secondary-container": "#636563", "on-tertiary": "#ffffff", "on-surface": "#1b1c1c", tertiary: "#000000", "tertiary-fixed": "#e2e2e0", "on-primary-fixed-variant": "#474646", error: "#ba1a1a", "on-surface-variant": "#444748", "on-secondary-fixed": "#1a1c1b", "surface-bright": "#fbf9f9", "on-tertiary-fixed": "#1a1c1b", "primary-fixed": "#e5e2e1", "outline-variant": "#c4c7c7", "tertiary-fixed-dim": "#c6c7c5", "on-background": "#1b1c1c", outline: "#747878", "surface-container-lowest": "#ffffff", "on-secondary-fixed-variant": "#454746", "on-primary": "#ffffff", "error-container": "#ffdad6", "primary-container": "#1c1b1b", "on-primary-fixed": "#1c1b1b", surface: "#fbf9f9"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-page": "48px", unit: "4px", "max-width-content": "720px", "margin-mobile": "20px", gutter: "24px"}, fontFamily: {"headline-md": ["\"Source Serif 4\""], "display-lg-mobile": ["\"Source Serif 4\""], "display-lg": ["\"Source Serif 4\""], "body-md": ["Inter"], "label-mono": ["JetBrains Mono"], "body-lg": ["Inter"], headline: ["\"Source Serif 4\""], display: ["\"Source Serif 4\""], body: ["Inter"], label: ["Jetbrains Mono"]}, fontSize: {"headline-md": ["24px", {lineHeight: "1.3", fontWeight: "500"}], "display-lg-mobile": ["32px", {lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600"}], "display-lg": ["48px", {lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "600"}], "body-md": ["16px", {lineHeight: "1.5", fontWeight: "400"}], "label-mono": ["12px", {lineHeight: "1", letterSpacing: "0.05em", fontWeight: "500"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}]}}}};</script>
+<style>
+        .animate-fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+
+        .ascii-divider {
+            font-family: 'JetBrains Mono', monospace;
+            white-space: pre;
+            overflow: hidden;
+            text-overflow: clip;
+            display: block;
+            width: 100%;
+            color: #c4c7c7; /* outline-variant */
+            font-size: 10px;
+            line-height: 1;
+            margin-top: 32px;
+            margin-bottom: 24px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for minimal aesthetic */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c4c7c7;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #747878;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex font-body-md selection:bg-primary selection:text-on-primary">
+<!-- Shell Layout -->
+<div class="flex flex-row w-full h-screen">
+<!-- SideNavBar -->
+<nav class="flex flex-col h-screen py-margin-page px-6 bg-surface dark:bg-inverse-surface w-64 border-r border-outline-variant dark:border-outline shrink-0">
+<!-- Branding -->
+<div class="mb-12 flex flex-col gap-2">
+<h1 class="font-headline-md text-headline-md tracking-tighter text-primary dark:text-inverse-primary">
+                    BREADCRUMB
+                </h1>
+<span class="font-label-mono text-label-mono text-on-surface-variant opacity-70">
+                    &gt; remember your life
+                </span>
+</div>
+<!-- Navigation Links -->
+<ul class="flex flex-col gap-2 font-label-mono text-label-mono">
+<!-- Inactive Tab: Dashboard -->
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-surface-variant pl-4 py-2 opacity-70 hover:opacity-100 hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<!-- Active Tab: Timeline -->
+<li>
+<a class="flex items-center gap-3 text-primary dark:text-inverse-primary font-bold border-l-2 border-primary dark:border-inverse-primary pl-4 py-2 hover:opacity-100 hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors Active: translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="timeline">timeline</span>
+<span>Timeline</span>
+</a>
+</li>
+<!-- Inactive Tab: Search -->
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-surface-variant pl-4 py-2 opacity-70 hover:opacity-100 hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="search">search</span>
+<span>Search</span>
+</a>
+</li>
+<!-- Inactive Tab: Insights -->
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-surface-variant pl-4 py-2 opacity-70 hover:opacity-100 hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="insights">insights</span>
+<span>Insights</span>
+</a>
+</li>
+</ul>
+<!-- Spacer -->
+<div class="flex-grow"></div>
+<!-- CTA -->
+<div class="mt-8">
+<button class="w-full py-3 px-4 bg-primary text-on-primary font-label-mono text-label-mono hover:opacity-90 transition-opacity border border-primary flex items-center justify-center gap-2 cursor-pointer">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+                    Create Entry
+                </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 h-screen overflow-y-auto bg-surface-container-lowest">
+<div class="w-full max-w-[720px] flex flex-col items-center mx-auto px-margin-mobile md:px-0 py-margin-page">
+<!-- Page Header -->
+<header class="w-full max-w-max-width-content mb-16 text-center animate-fade-in-up">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-4 tracking-tight">TIMELINE</h1>
+<p class="font-body-lg text-body-lg text-secondary">A chronological record of your life.</p>
+</header>
+<!-- Timeline Container -->
+<div class="w-full max-w-max-width-content relative">
+<!-- Date Group 1 -->
+<div class="mb-12 animate-fade-in-up delay-100">
+<div class="font-label-mono text-label-mono text-secondary mb-8 flex items-center gap-4">
+<span class="text-outline">┌─</span>
+<span class="tracking-widest">JUNE 25, 2026</span>
+<div class="flex-grow border-t border-dashed border-outline-variant"></div>
+</div>
+<div class="relative pl-8 md:pl-16 space-y-12">
+<!-- Vertical Line -->
+<div class="absolute left-[15px] md:left-[31px] top-4 bottom-0 w-px bg-outline-variant"></div>
+<!-- Event 1 -->
+<div class="relative group">
+<div class="absolute -left-[31px] md:-left-[47px] top-0 w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center z-10 group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[16px] text-secondary group-hover:text-primary">code</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-6">
+<time class="font-label-mono text-label-mono text-secondary w-16 shrink-0">09:00</time>
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 border border-outline-variant rounded font-label-mono text-[10px] uppercase text-secondary">Activity</span>
+<h3 class="font-headline-md text-[20px] leading-tight text-primary">Started Coding</h3>
+</div>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="relative group">
+<div class="absolute -left-[31px] md:-left-[47px] top-0 w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center z-10 group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[16px] text-secondary group-hover:text-primary">check_circle</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-6">
+<time class="font-label-mono text-label-mono text-secondary w-16 shrink-0">11:00</time>
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 border border-outline-variant rounded font-label-mono text-[10px] uppercase text-secondary">Activity</span>
+<h3 class="font-headline-md text-[20px] leading-tight text-primary">Finished Login Feature</h3>
+</div>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="relative group">
+<div class="absolute -left-[31px] md:-left-[47px] top-0 w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center z-10 group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[16px] text-secondary group-hover:text-primary">book</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-6">
+<time class="font-label-mono text-label-mono text-secondary w-16 shrink-0">13:00</time>
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 border border-outline-variant rounded font-label-mono text-[10px] uppercase text-secondary">Memory</span>
+<h3 class="font-headline-md text-[20px] leading-tight text-primary">Saved Interview Notes</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Date Group 2 -->
+<div class="mb-12 animate-fade-in-up delay-200">
+<div class="font-label-mono text-label-mono text-secondary mb-8 flex items-center gap-4">
+<span class="text-outline">┌─</span>
+<span class="tracking-widest">JUNE 24, 2026</span>
+<div class="flex-grow border-t border-dashed border-outline-variant"></div>
+</div>
+<div class="relative pl-8 md:pl-16 space-y-12">
+<!-- Vertical Line -->
+<div class="absolute left-[15px] md:left-[31px] top-4 bottom-0 w-px bg-outline-variant"></div>
+<!-- Event 4 -->
+<div class="relative group">
+<div class="absolute -left-[31px] md:-left-[47px] top-0 w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center z-10 group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[16px] text-secondary group-hover:text-primary">call_split</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-6">
+<time class="font-label-mono text-label-mono text-secondary w-16 shrink-0">18:00</time>
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 border border-outline-variant rounded font-label-mono text-[10px] uppercase text-secondary">Decision</span>
+<h3 class="font-headline-md text-[20px] leading-tight text-primary">Apply Taiwan Internship</h3>
+</div>
+</div>
+<div class="mt-4 md:ml-22 max-w-lg">
+<p class="font-body-md text-body-md text-on-surface-variant border-l-2 border-outline-variant pl-4 py-1">Decided to prioritize the Taipei opportunity over the local one. The potential for growth seems higher despite the initial discomfort of relocating.</p>
+</div>
+</div>
+<!-- Event 5 -->
+<div class="relative group">
+<div class="absolute -left-[31px] md:-left-[47px] top-0 w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center z-10 group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[16px] text-secondary group-hover:text-primary">bed</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-6">
+<time class="font-label-mono text-label-mono text-secondary w-16 shrink-0">22:00</time>
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 border border-outline-variant rounded font-label-mono text-[10px] uppercase text-secondary">Routine</span>
+<h3 class="font-headline-md text-[20px] leading-tight text-primary">Changed Bedsheet</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- End Marker -->
+<div class="flex justify-center mt-16 animate-fade-in-up delay-300">
+<span class="font-label-mono text-label-mono text-outline tracking-widest">+---+</span>
+</div>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest flex flex-col md:flex-row justify-between items-center w-full py-8 mt-margin-page border-t border-outline-variant border-dashed flat no shadows">
+<div class="font-label-mono text-label-mono text-primary mb-4 md:mb-0">
+            © 2024 Notebook System
+        </div>
+<nav class="flex gap-6">
+<a class="font-label-mono text-label-mono text-secondary hover:text-primary transition-colors" href="#">Archive</a>
+<a class="font-label-mono text-label-mono text-secondary hover:text-primary transition-colors" href="#">Systems</a>
+<a class="font-label-mono text-label-mono text-secondary hover:text-primary transition-colors" href="#">Index</a>
+<a class="font-label-mono text-label-mono text-secondary hover:text-primary transition-colors" href="#">Privacy</a>
+</nav>
+</footer>
+</div>
+</main>
+</div>
+</body></html>
